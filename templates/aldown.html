@@ -1,0 +1,289 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:title" content="Facebook Album Downloader" />
+        <meta property="og:url" content="http://downloadlabums.appspot.com/aldown/" />
+        <meta property="og:image" content="http://downloadlabums.appspot.com/media/img/favicon.jpg" />
+        <title>Facebook Album Downloader</title>
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <link rel="shortcut icon" type="image/png" href="/media/img/favicon.jpg"/>
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <img src="http://downloadlabums.appspot.com/media/img/favicon.jpg" style="display:none;">
+                <ul class="nav nav-pills pull-right">
+                    <li><!-- Place this tag where you want the +1 button to render. -->
+                    <div class="g-plusone" data-annotation="inline" data-width="300"></div>
+                    <!-- Place this tag after the last +1 button tag. -->
+                    <li><div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-share="false"></div></li>
+                </li>
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <h3 class="text-muted">Aldown</h3>
+        </div>
+        <div class="starter-template">
+            <h1>Welcome to the facebook album downloader</h1>
+            <p class="lead">Use this free service to quickly view & download the albums that you were tagged by your facebook friends.</p>
+        </div>
+        <div class="container ">
+            <div class="album" >
+                <div class="row ">
+                    <div class="col-md-12 grid text-center" id="home_buttons" >
+                        <img onclick="login_to_fb();" id="fblogin" src="/media/img/fblogin.jpg" style="display:none;">
+                        <button onclick="showAccountInfo();" id="view-album-link" class="btn btn-warning btn-lg" style="display:none;">View My Albums</button>
+                    </div>
+                    <div class="col-md-12 grid album-container wrap-thin demo-thin clearfix" style="display:none;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="overlay" style="display:none;">
+            <div class="loader" style="font-weight:800;color:white;">Fetching albums from facebook...</div>
+        </div>
+        <div id="footer">
+            <div class="container">
+                <p class="text-muted">&copy; 2014 Vivek Soundrapandi</p>
+            </div>
+        </div>
+        <link rel="stylesheet" type="text/css" href="/media/css/bootstrap.min.css">
+        
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,400italic,600,700,800" rel="stylesheet" type="text/css" />
+        <style type="text/css">
+        body{
+        font-family:'Open Sans',sans-serif;
+        background-color: #E9EAED ;
+        }
+        .album-title {color: #FFFFFF;font-size: 18px;}
+        img {padding: 10px;}
+        .album {background-color: #F6F7F8;
+        border: 1px solid #D3D6DB;
+        /*width: 1012px;*/
+        }
+        #fblogin {cursor: pointer;}
+        #view-album-link {margin-bottom: 10px;margin-top: 10px;}
+        .view-back a:hover {text-decoration: none;}
+        #footer {margin-top: 30px;}
+        </style>
+        <style type="text/css">
+                a {
+            text-decoration: none;
+        }
+
+        .clearfix {
+            display: block;
+        }
+
+        /* --- Container configuration ---------------------------------------------------------- */
+        .viewport {
+            border: 3px solid #eee;
+            float: left;
+            height: 299px;
+            margin: 0 9px 9px 0;
+            overflow: hidden;
+            position: relative;
+            width: 450px;
+            margin-left: 69px;
+            margin-top: 10px;
+        }
+
+        /* This is so that the 2nd thumbnail in each row fits snugly. You will want to add a similar
+           class to the last thumbnail in each row to get rid of the margin-right. */
+        .no-margin {
+            margin-right: 0;
+        }
+
+        /* --- Link configuration that contains the image and label ----------------------------- */
+        .viewport a {
+            display: block;
+            position: relative;
+        }
+
+        .viewport a img {
+            height: 332px;
+            left: -20px;
+            position: relative;
+            top: -20px;
+            width: 500px;
+        }
+
+        /* --- Label configuration -------------------------------------------------------------- */
+        .viewport a span {
+            /*display: none;*/
+            font-size: 3.0em;
+            font-weight: bold;
+            height: 100%;
+            padding-top: 120px;
+            position: absolute;
+            text-align: center;
+            text-decoration: none;
+            width: 100%;
+            z-index: 100;
+        }
+            .viewport a span em {
+                display: block;
+                font-size: 0.45em;
+                font-weight: normal;
+            }
+
+        /* --- Dark hover background ------------------------------------------------------------ */
+        .dark-background {
+            background-color: rgba(15, 15, 15, 0.34);
+            color: #fff;
+            text-shadow: #000 0px 0px 20px;
+        }
+            .dark-background em {
+                color: #ccc;
+            }
+        /* custom styles for facebook loader starts */
+    .loader {
+    width: 350px;
+    height: 350px;
+    line-height: 350px;
+    margin: 100px auto;
+    position: relative;
+    box-sizing: border-box;
+    text-align: center;
+    z-index: 0;
+    text-transform: uppercase;
+    }
+    /* overlay styles, all needed */
+    #overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    z-index: 10;
+    opacity:0.85;
+    }
+    .loader:before,
+    .loader:after {
+    opacity: 0;
+    box-sizing: border-box;
+    content: "\0020";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 222px;
+    border: 5px solid #fff;
+    box-shadow: 0 0 50px #fff, inset 0 0 50px #fff;
+    }
+.loader:after {
+  z-index: 1;
+  -webkit-animation: gogoloader 2s infinite 1s;
+  -moz-animation: gogoloader 2s infinite 1s;
+}
+
+.loader:before {
+  z-index: 2;
+  -webkit-animation: gogoloader 2s infinite;
+  -moz-animation: gogoloader 2s infinite;
+}
+@-moz-keyframes gogoloader {
+  0% {
+    -moz-transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    -moz-transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes gogoloader {
+  0% {
+    -webkit-transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    opacity: 0;
+  }
+}
+.loader:after {
+  z-index: 1;
+  -webkit-animation: gogoloader 2s infinite 1s;
+  -moz-animation: gogoloader 2s infinite 1s;
+}
+
+.loader:before {
+  z-index: 2;
+  -webkit-animation: gogoloader 2s infinite;
+  -moz-animation: gogoloader 2s infinite;
+}
+@-moz-keyframes gogoloader {
+  0% {
+    -moz-transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    -moz-transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes gogoloader {
+  0% {
+    -webkit-transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    opacity: 0;
+  }
+}
+
+        /* custom styles for facebook loader ends */
+        </style>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="/media/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+function hide_loader(){$("#overlay").hide()}(function(b){var a;b.getElementById("facebook-jssdk")||(a=b.createElement("script"),a.id="facebook-jssdk",a.async=!0,a.src="//connect.facebook.net/en_UK/all.js",b.getElementsByTagName("head")[0].appendChild(a))})(document);window.fbAsyncInit=function(){FB.init({appId:"187689561318469",status:!0,cookie:!0,xfbml:!0,oauth:!0});"function"==typeof facebookInit&&facebookInit()};function showLoginButton(){$("#fblogin").show()}var get_photos='"select aid from photo where pid in(select pid from photo_tag where subject=me())"',get_album_info="'SELECT name,aid,cover_pid,owner FROM album WHERE aid IN (",get_photo_from_album="'SELECT pid FROM photo WHERE aid=",get_pic_url="'SELECT src_big FROM photo WHERE pid IN(",get_cover_photo="'SELECT src_big FROM photo WHERE pid=",get_owner_name="'SELECT first_name FROM user WHERE uid=",view_block_html='<div class="viewport"><a id="[album_id]" data-title="[full_title]" href="javascript:void(0);"><span class="dark-background">[title]<em>Photo by [author]</span><img src="[album_cover_url]" alt="" /></a></div>';function replaceAt(b,a,f){return b.substring(0,a)+f+b.substring(a+1)}function login_to_fb(){$("#fblogin").hide();$("#view-album-link").show();FB.login(function(response) {},{scope: 'user_photos,friends_photos'});}function showAccountInfo(){$("#home_buttons").hide();$(".album-container,#overlay").show();$.get('https://graph.facebook.com/fql?q={"photos":'+get_photos+"}&access_token="+FB.getAuthResponse().accessToken,function(b){li=[];$.each(b.data[0].fql_result_set,function(a){li[a]=b.data[0].fql_result_set[a].aid});li=$.unique(li);var a=get_album_info;$.each(li,function(b){a+='"'+li[b]+'",'});a=replaceAt(a,a.length-1,"");a+=")'";$.get('https://graph.facebook.com/fql?q={"photos":'+a+"}&access_token="+FB.getAuthResponse().accessToken,function(a){$("a").remove();$.each(a.data[0].fql_result_set,function(b){var d=get_cover_photo+'"'+a.data[0].fql_result_set[b].cover_pid+"\"'",g=$(".album-container");$.get('https://graph.facebook.com/fql?q={"photos":'+d+"}&access_token="+FB.getAuthResponse().accessToken,function(d){void 0!=d.data[0].fql_result_set[0]&&$.get('https://graph.facebook.com/fql?q={"photos":'+(get_owner_name+'"'+a.data[0].fql_result_set[b].owner+"\"'")+"}&access_token="+FB.getAuthResponse().accessToken,function(e){void 0!=e.data[0].fql_result_set[0]&&g.append(view_block_html.replace("[title]",a.data[0].fql_result_set[b].name.substr(0,18)+"...").replace("[album_cover_url]",d.data[0].fql_result_set[0].src_big).replace("[album_id]",a.data[0].fql_result_set[b].aid).replace("[full_title]",a.data[0].fql_result_set[b].name).replace("[author]",e.data[0].fql_result_set[0].first_name.substr(0,14)+"..."))})})});hide_loader()})})}$(function(){$(".album-container").on("click",".viewport a",function(){$("#overlay").show();$(".viewport span").hide();var b=$(this).data("title"),a=get_photo_from_album,a=a+('"'+$(this).attr("id")+'"');$.get('https://graph.facebook.com/fql?q={"photos":'+a+"'}&access_token="+FB.getAuthResponse().accessToken,function(a){var c=get_pic_url;$.each(a.data[0].fql_result_set,function(b){c+='"'+a.data[0].fql_result_set[b].pid+'",'});c=replaceAt(c,c.length-1,"");c+=")'";$.get('https://graph.facebook.com/fql?q={"photos":'+c+"}&access_token="+FB.getAuthResponse().accessToken,function(a){li1=[];$.each(a.data[0].fql_result_set,function(b){li1[b]=a.data[0].fql_result_set[b].src_big});$.post("/aldown/aldown_post/",{li1:li1,name:b},function(a){hide_loader();a.redirect_url&&(window.location.href=a.redirect_url)})})})});$(".viewport span").hide()});function facebookInit(){FB.getLoginStatus(function(b){"connected"===b.status?($("#view-album-link").show(),$("#fblogin").hide()):"not_authorized"!==b.status&&showLoginButton()})};
+        </script>
+        <script type="text/javascript">
+        (function() {
+            var po = document.createElement('script');
+            po.type = 'text/javascript';
+            po.async = true;
+            po.src = 'https://apis.google.com/js/platform.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(po, s);
+        })();
+        </script>
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=187689561318469";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+    </body>
+</html>

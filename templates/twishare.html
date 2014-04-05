@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Twishare</title>
+  </head>
+  <body>
+ <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js" ></script>
+
+<script type="text/javascript">
+    // Read a page's GET URL variables and return them as an associative array.
+    function getUrlVars()
+    {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+     
+    for(var i = 0; i < hashes.length; i++)
+    {
+    hash = hashes[i].split('=');
+    vars.push(hash[0]);
+    vars[hash[0]] = hash[1];
+    }
+     
+    return vars;
+    }
+(function(d){
+           var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+           js = d.createElement('script'); js.id = id; js.async = true;
+           js.src = "http://connect.facebook.net/en_US/all.js";
+           d.getElementsByTagName('head')[0].appendChild(js);
+}(document));
+</script>
+<script type="text/javascript">
+
+$(function(){
+var callback = function (response) {alert("success");};
+function publishWallPost(userReview){
+            // Post message to friend's wall
+           var opts = {
+                message : userReview,
+            };
+            FB.api('/me/feed/', 'post', opts,
+            function(response) {
+
+               }
+            );
+    };
+window.fbAsyncInit = function()
+{
+    FB.init({
+        appId : '273468072765636',
+        status : true, // check login status
+        cookie : true, // enable cookies to allow the server to access the session
+        xfbml : true , // parse XFBML
+        oauth : true // Enable oauth authentication
+    });
+FB.getLoginStatus(function(response){
+
+	content_encoded=window.location.href.substring(36,window.location.href.length);
+	content_decoded=decodeURIComponent(content_encoded);
+	publishWallPost(content_decoded);
+    });
+};
+
+});
+</script>
+  </body>
+</html>
